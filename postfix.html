@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Postfix to Infix</title>
+     <style>
+        table{
+            margin-right: auto;
+            margin-left: auto;
+        }
+        span{
+            font-size: 30px;
+            color: red;
+            background-color: palegoldenrod;
+        }
+        #button:hover{
+            color: palevioletred;
+            background-color: transparent;
+        }
+        body{
+            background-image: url(bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: greenyellow;
+        }
+        #footer
+        {
+            color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+        #span
+        {
+            background-color: gray;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<script>
+function push_stack(stackArr,ele)
+{
+ stackArr[stackArr.length]=ele;
+}
+
+function pop_stack(stackArr)
+{
+ var _temp=stackArr[stackArr.length-1];
+ delete stackArr[stackArr.length-1];
+ stackArr.length--;
+ return(_temp);
+}
+
+function isOperand(who)
+{
+ return(!isOperator(who)? true : false);
+}
+
+function isOperator(who)
+{
+ return((who=="+" || who=="-" || who=="*" || who=="/" || who=="(" || who==")")? true : false);
+}
+
+function topStack(stackArr)
+{
+ return(stackArr[stackArr.length-1]);
+}
+
+function PostfixToInfix()
+{
+    var postfixStr;
+    postfixStr=document.getElementById("postfixvalue").value;
+
+ var stackArr=new Array();
+ postfixStr=postfixStr.split('');
+ for(var i=0; i<postfixStr.length; i++)
+ {
+  if(isOperand(postfixStr[i]))
+  {
+   push_stack(stackArr,postfixStr[i]);
+  }
+  else
+  {
+   var temp=topStack(stackArr);
+   pop_stack(stackArr);
+   var pushVal=topStack(stackArr)+postfixStr[i]+temp;
+   pop_stack(stackArr);
+   push_stack(stackArr,pushVal);
+  }
+ }
+ document.getElementById("infix").innerHTML=topStack(stackArr);
+} 
+</script>
+<form>
+	<table>
+		<tr>
+			<td>POSTFIX</td>
+			<td><input type="text" name="postfix" placeholder="enter POSTFIX expression" id="postfixvalue"></td>
+		</tr>
+        <tr>
+            <td><p>INFIX is : <span id="infix"></span></p></td>
+        </tr>
+		<tr>
+			<td><input type="button" id="button" value="Convert" name="submit" onclick="PostfixToInfix()"><td>
+            <td><button><a href="expression.html">Home</a></button></td>
+		</tr>
+	</table>
+</form>
+<div id="footer">
+    <p>Designed & Developed by:<br><span id="span">pragna_deepak</span></p>
+    <p>dhondideepak@gmail.com</p>
+</div>
+</body>
+</html>
